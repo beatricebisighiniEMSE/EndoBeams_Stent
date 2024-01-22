@@ -7,9 +7,9 @@
 *.stl
 
 /examples/output3D/
-/stent/output3D/
-/stent/output3D/
-/test/stent/output3D/
+/stent_deployment/output3D/
+/stent_deployment/output3D copy/
+/test/output3D/
 
 docs/build/
 Manifest.toml
