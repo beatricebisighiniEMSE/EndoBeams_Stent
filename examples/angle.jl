@@ -99,7 +99,7 @@ conf = Configuration(nodes, beams, nothing, ext_forces, bcs, nothing, nothing)
 ini_Δt = 0.25
 max_Δt = 0.25
 Δt_plot =  0.25
-tᵉⁿᵈ = 30
+tᵉⁿᵈ = 10
 
 params = Params(;ini_Δt, max_Δt, Δt_plot, tᵉⁿᵈ, output_dir = "examples/output3D")
 

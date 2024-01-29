@@ -1,10 +1,10 @@
 *.jl.*.cov
 *.jl.cov
 *.jl.mem
-*.vtk
-*.txt
-*.vtp
-*.stl
+# *.vtk
+# *.txt
+# *.vtp
+# *.stl
 
 /examples/output3D/
 /stent_deployment/output3D/

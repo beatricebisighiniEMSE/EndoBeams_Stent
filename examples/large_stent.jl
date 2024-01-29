@@ -33,9 +33,7 @@ ẅ⁰ = zeros(nnodes, 3)
 R = readdlm("examples/input_large_stent/R.txt")
 
 # nodes StructArray
-nodes = build_nodes(initial_positions, u⁰, u̇⁰, ü⁰, w⁰, ẇ⁰, ẅ⁰, R)
-
-
+nodes = build_nodes(initial_positions, u⁰, u̇⁰, ü⁰, w⁰, ẇ⁰, ẅ⁰, nothing, R)
 
 # -------------------------------------------------------------------------------------------
 # Building the beams
@@ -45,9 +43,9 @@ nodes = build_nodes(initial_positions, u⁰, u̇⁰, ü⁰, w⁰, ẇ⁰, ẅ�
 # geometric and material properties
 E = 225*1e3
 ν = 0.33
-ρ = 9.13*1e-6
+ρ = 9.13*1e-9
 radius = 0.065
-damping = 1e3
+damping = 1e6
 
 # read initial rotations for the beams
 Re₀ = readdlm("examples/input_large_stent/R0.txt")
@@ -55,15 +53,17 @@ Re₀ = readdlm("examples/input_large_stent/R0.txt")
 # beams vector
 beams = build_beams(nodes, connectivity, E, ν, ρ, radius, damping, Re₀)
 
-
-
 # contact parameters
-kₙ = 4/3 * 5/(1-0.5^2)*sqrt(radius) # Approximate Hertz contact with 5 MPa wall stiffness
+# kₙ = 4/3 * 5/(1-0.5^2)*sqrt(radius) # Approximate Hertz contact with 5 MPa wall stiffness
+kₙ = 10 # Approximate Hertz contact with 5 MPa wall stiffness
 μ = 0.1
 εᵗ = 0.1 #regularized parameter for friction contact
 ηₙ = 0.01
+kₜ = kₙ
+ηₜ = ηₙ
+u̇ₛ = 0.0
 
-contact = ContactParameters(kₙ, μ, εᵗ, ηₙ)
+contact = ContactParameters(kₙ, μ, εᵗ, ηₙ, kₜ, ηₜ, u̇ₛ)
 
 # -------------------------------------------------------------------------------------------
 # External forces
@@ -98,7 +98,6 @@ disp_dofs = Int[]
 disp_vals = Float64[]
 disp(t, node_idx) = 0
 
-
 # boundary conditions strucutre
 bcs = BoundaryConditions(fixed_dofs, free_dofs, disp, disp_vals, disp_dofs)
 
@@ -120,9 +119,9 @@ conf = Configuration(nodes, beams, constraints, ext_forces, bcs, contact, sdf)
 # -------------------------------------------------------------------------------------------
 
 # initial time step and total time
-ini_Δt = 1e-5
-max_Δt = 1e-2
-Δt_plot =  1e-5
+ini_Δt = 1e-6
+max_Δt = 1e-4
+Δt_plot =  1e-4
 tᵉⁿᵈ = 1
 
 params = Params(;ini_Δt, Δt_plot, max_Δt, tᵉⁿᵈ, output_dir = "examples/output3D", stop_on_energy_threshold=true, energy_threshold=1e-6, tol_res = 1e-3, tol_ΔD = 1e-3, record_timings=false)

@@ -54,9 +54,12 @@ kₙ = 0.1 #penalty parameter
 μ = 0.1
 εᵗ = 0.1 #regularized parameter for friction contact
 ηₙ = 0.1
+kₜ = kₙ
+ηₜ = ηₙ
+u̇ₛ = 0.01
 
-contact = ContactParameters(kₙ, μ, εᵗ, ηₙ)
-  
+contact = ContactParameters(kₙ, μ, εᵗ, ηₙ, kₜ, ηₜ, u̇ₛ)
+
 # -------------------------------------------------------------------------------------------
 # External forces
 # -------------------------------------------------------------------------------------------

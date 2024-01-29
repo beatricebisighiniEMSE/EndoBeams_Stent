@@ -21,6 +21,9 @@ include("deployment.jl")
 initial_positions_stent, connectivity_stent = compute_bs_geom_given_nbTotalCells(nbWires, rStent, rWireSection, wireGap, lengthStent, nbTotalCells, braidingPattern)
 initial_positions_stent_mat = reshape(reinterpret(Float64, initial_positions_stent), (3, length(initial_positions_stent)))'
 
+writedlm("pos.txt", initial_positions_stent)
+writedlm("conn.txt", connectivity_stent)
+
 # -------------------------------------------------------------------------------------------
 # Select files 
 # -------------------------------------------------------------------------------------------
@@ -35,7 +38,7 @@ filename_sdf = "stent_deployment/input/sdf_$i.vtk"
 # -------------------------------------------------------------------------------------------
 
 output_dir_crimping = "stent_deployment/output3D/outputCrimping3D/"
-# crimping(rStent, rCrimpedStent, initial_positions_stent, connectivity_stent, output_dir_crimping)
+crimping(rStent, rCrimpedStent, initial_positions_stent, connectivity_stent, output_dir_crimping)
 
 output_dir_positioning_cl = "stent_deployment/output3D/outputPositioningCl3D/"
 output_dir_positioning = "stent_deployment/output3D/outputPositioning3D/"

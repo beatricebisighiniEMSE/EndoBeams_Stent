@@ -54,7 +54,7 @@ function deployment(initial_positions_stent_mat, initial_positions_stent, connec
 
     # contact parameters
     kₙ = 4/3 * 5/(1-0.5^2)*sqrt(rWireSection) # Approximate Hertz contact with 5 MPa wall stiffness
-    μ = 0.1
+    μ = 0.5
     εᵗ = 0.1 #regularized parameter for friction contact
     ηₙ = 0.1
     kₜ = kₙ
@@ -83,6 +83,7 @@ function deployment(initial_positions_stent_mat, initial_positions_stent, connec
     kᶜᵒⁿ = kₙ
     ηᶜᵒⁿ = kₙ
     nodespairs = get_nodespairs_stent(initial_positions_stent)
+    writedlm("nodespairs.txt", nodespairs)
     constraints = build_constraints(nodespairs, kᶜᵒⁿ, ηᶜᵒⁿ)
 
     # Dirichlet boundary conditions: blocked positions

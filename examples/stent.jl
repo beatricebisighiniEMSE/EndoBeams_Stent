@@ -34,21 +34,17 @@ ẅ⁰ = zeros(nnodes, 3)
 R = readdlm("examples/input_stent/R_positioning.txt")
 
 # nodes StructArray
-nodes = build_nodes(initial_positions, u⁰, u̇⁰, ü⁰, w⁰, ẇ⁰, ẅ⁰, R)
-
-
+nodes = build_nodes(initial_positions, u⁰, u̇⁰, ü⁰, w⁰, ẇ⁰, ẅ⁰, nothing, R)
 
 # -------------------------------------------------------------------------------------------
 # Building the beams
 # -------------------------------------------------------------------------------------------
-
-
 # geometric and material properties
 E = 225*1e3
 ν = 0.33
-ρ = 9.13*1e-6
+ρ = 9.13*1e-9
 radius = 0.065
-damping = 1e3
+damping = 1e6
 
 # read initial rotations for the beams
 Re₀ = readdlm("examples/input_stent/Re0_positioning.txt")
@@ -56,16 +52,16 @@ Re₀ = readdlm("examples/input_stent/Re0_positioning.txt")
 # beams vector
 beams = build_beams(nodes, connectivity, E, ν, ρ, radius, damping, Re₀)
 
-
-
 # contact parameters
 kₙ = 10 #penalty parameter
 μ = 0.3
 εᵗ = 0.1 #regularized parameter for friction contact
 ηₙ = 0.1
+kₜ = kₙ
+ηₜ = ηₙ
+u̇ₛ = 0.0
 
-contact = ContactParameters(kₙ, μ, εᵗ, ηₙ)
-
+contact = ContactParameters(kₙ, μ, εᵗ, ηₙ, kₜ, ηₜ, u̇ₛ)
 # -------------------------------------------------------------------------------------------
 # External forces
 # -------------------------------------------------------------------------------------------
@@ -88,7 +84,6 @@ kᶜᵒⁿ = 1e3
 ηᶜᵒⁿ = 1
 nodespairs = readdlm("examples/input_stent/constr_stent.txt")
 constraints = build_constraints(nodespairs, kᶜᵒⁿ, ηᶜᵒⁿ)
-
 
 # Dirichlet boundary conditions: blocked positions
 fixed_dofs = Float64[]
@@ -121,7 +116,7 @@ conf = Configuration(nodes, beams, constraints, ext_forces, bcs, contact, sdf)
 # -------------------------------------------------------------------------------------------
 
 # initial time step and total time
-ini_Δt = 0.01
+ini_Δt = 1e-6
 max_Δt = 1.
 Δt_plot =  0.01
 tᵉⁿᵈ = 1

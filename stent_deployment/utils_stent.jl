@@ -4,7 +4,7 @@
 
 @with_kw struct BraidedStent 
 
-    nbWires::Int = 12
+    nbWires::Int = 16
     rStent::Float64 = 2.2
     rCrimpedStent::Float64 = 1.2
     rWireSection::Float64 = 0.051
@@ -733,6 +733,51 @@ function write_vtk_configuration(filename, positions, connectivity)
     close(fid)
     
 end 
+
+# function write_vtk_configuration(filename, positions, connectivity)
+    
+#     fid = open(filename, "w")
+    
+#     write(fid,"# vtk DataFile Version 3.0")
+#     write(fid,"\nvtk output")
+#     write(fid,"\nASCII")
+#     write(fid,"\nDATASET POLYDATA")
+    
+#     numberPoints = size(positions,1)
+#     write(fid,"\nPOINTS $numberPoints float")  
+#     for i in 1:size(positions,1)
+#         n = positions[i,:]
+#         write(fid,"\n")
+#         write(fid, string.(n[1]))
+#         write(fid," ")
+#         write(fid, string.(n[2]))
+#         write(fid," ")
+#         write(fid, string.(n[3])) 
+#     end 
+    
+#     numberLines = size(connectivity,1)
+#     numberElementsPerLine = 2
+#     numberElements= numberLines*(numberElementsPerLine + 1)
+#     write(fid,"\nLINES $numberLines $numberElements\n")
+    
+#     for i in 1:numberLines
+        
+#         write(fid, string.(numberElementsPerLine))
+#         write(fid,"\n")
+        
+#         node = connectivity[i,1] -1
+#         write(fid, string.(node)) 
+#         write(fid,"\n")
+        
+#         node = connectivity[i,2] -1
+#         write(fid, string.(node)) 
+#         write(fid,"\n")
+        
+#     end 
+    
+#     close(fid)
+    
+# end 
 
 function write_vtk_configuration(filename, positions, connectivity, value)
     
