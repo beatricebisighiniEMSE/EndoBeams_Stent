@@ -13,7 +13,7 @@ connectivity = readdlm("examples/input_stent/conn_stent.txt", Int)
 crimped_positions = initial_positions + readdlm("examples/input_stent/u_crimping.txt")
 
 # read positioned configuration
-final_positions = crimped_positions + readdlm("examples/input_stent/u_positioning.txt")
+# final_positions = crimped_positions + readdlm("examples/input_stent/u_positioning.txt")
 
 # -------------------------------------------------------------------------------------------
 # Building the nodes
@@ -31,7 +31,7 @@ w⁰ = zeros(nnodes, 3)
 ẇ⁰ = zeros(nnodes, 3)
 ẅ⁰ = zeros(nnodes, 3)
 
-R = readdlm("examples/input_stent/R_positioning.txt")
+R = readdlm("examples/input_stent/R_crimping.txt")
 
 # nodes StructArray
 nodes = build_nodes(initial_positions, u⁰, u̇⁰, ü⁰, w⁰, ẇ⁰, ẅ⁰, nothing, R)
@@ -47,7 +47,7 @@ radius = 0.065
 damping = 1e6
 
 # read initial rotations for the beams
-Re₀ = readdlm("examples/input_stent/Re0_positioning.txt")
+Re₀ = readdlm("examples/input_stent/Re0_crimping.txt")
 
 # beams vector
 beams = build_beams(nodes, connectivity, E, ν, ρ, radius, damping, Re₀)
